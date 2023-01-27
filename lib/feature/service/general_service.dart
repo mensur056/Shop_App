@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:shop_app/core/extensions/service_extension.dart';
 import 'package:shop_app/feature/service/model/bag_model.dart';
 import 'package:shop_app/feature/service/model/computer_model.dart';
 import 'package:shop_app/feature/service/model/phone_model.dart';
@@ -60,17 +61,5 @@ class GeneralService implements IHomeService {
       }
     }
     return null;
-  }
-}
-
-enum ProjectRequestPath { bag, phone, computer, shoes, users }
-
-extension ProjectRequestPathExtension on ProjectRequestPath {
-  String toPathCategory() {
-    return 'category/$name.json';
-  }
-
-  String toPathAccount() {
-    return 'account/$name.json';
   }
 }
