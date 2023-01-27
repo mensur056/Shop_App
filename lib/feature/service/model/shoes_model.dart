@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'shoes_model.g.dart';
+
+@JsonSerializable()
 class ShoesModel {
   String? image;
   int? price;
@@ -5,17 +9,11 @@ class ShoesModel {
 
   ShoesModel({this.image, this.price, this.shoesName});
 
-  ShoesModel.fromJson(Map<String, dynamic> json) {
-    image = json['image'];
-    price = json['price'];
-    shoesName = json['shoes_name'];
+  factory ShoesModel.fromJson(Map<String, dynamic> json) {
+    return _$ShoesModelFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['image'] = image;
-    data['price'] = price;
-    data['shoes_name'] = shoesName;
-    return data;
+    return _$ShoesModelToJson(this);
   }
 }
