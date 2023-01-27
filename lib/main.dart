@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/product/constant/theme.dart';
 
 import 'feature/UI/screens/home_page.dart';
 
@@ -11,9 +12,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter Demo',
-      home: HomePage(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Shop App',
+      theme: ProjectTheme.ligthTheme,
+      home: const HomePage(),
     );
   }
 }
