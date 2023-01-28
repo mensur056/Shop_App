@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shop_app/core/extensions/service_extension.dart';
 import 'package:shop_app/feature/service/model/bag_model.dart';
 import 'package:shop_app/feature/service/model/computer_model.dart';
@@ -18,13 +19,18 @@ class GeneralService implements IHomeService {
   @override
   Future<List<BagModel>?> fetchBagProduct() async {
     final response = await dio.get(ProjectRequestPath.bag.toPathCategory());
-    if (response.statusCode == 200) {
-      final data = response.data;
-      if (data is List) {
-        return data.map((e) => BagModel.fromJson(e)).toList();
-      }
+    if (response.statusCode != 200) {
+      return null;
     }
-    return null;
+    final data = response.data;
+    if (data is! List) {
+      return null;
+    }
+    return await compute(mapToBagModel, data);
+  }
+
+  List<BagModel> mapToBagModel(List data) {
+    return data.map((e) => BagModel.fromJson(e)).toList();
   }
 
   @override
