@@ -13,43 +13,32 @@ mixin _$MobxViewModel on _MobxViewModelBase, Store {
       Atom(name: '_MobxViewModelBase.items', context: context);
 
   @override
-  List<dynamic>? get items {
+  List<ComputerModel>? get items {
     _$itemsAtom.reportRead();
     return super.items;
   }
 
   @override
-  set items(List<dynamic>? value) {
+  set items(List<ComputerModel>? value) {
     _$itemsAtom.reportWrite(value, super.items, () {
       super.items = value;
     });
   }
 
-  late final _$fetchBagItemFromApiAsyncAction =
-      AsyncAction('_MobxViewModelBase.fetchBagItemFromApi', context: context);
+  late final _$isLoadingAtom =
+      Atom(name: '_MobxViewModelBase.isLoading', context: context);
 
   @override
-  Future<void> fetchBagItemFromApi() {
-    return _$fetchBagItemFromApiAsyncAction
-        .run(() => super.fetchBagItemFromApi());
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
   }
 
-  late final _$fetchPhoneItemFromApiAsyncAction =
-      AsyncAction('_MobxViewModelBase.fetchPhoneItemFromApi', context: context);
-
   @override
-  Future<void> fetchPhoneItemFromApi() {
-    return _$fetchPhoneItemFromApiAsyncAction
-        .run(() => super.fetchPhoneItemFromApi());
-  }
-
-  late final _$fetchShoesItemFromApiAsyncAction =
-      AsyncAction('_MobxViewModelBase.fetchShoesItemFromApi', context: context);
-
-  @override
-  Future<void> fetchShoesItemFromApi() {
-    return _$fetchShoesItemFromApiAsyncAction
-        .run(() => super.fetchShoesItemFromApi());
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
   }
 
   late final _$fetchComputerItemFromApiAsyncAction = AsyncAction(
@@ -65,7 +54,8 @@ mixin _$MobxViewModel on _MobxViewModelBase, Store {
   @override
   String toString() {
     return '''
-items: ${items}
+items: ${items},
+isLoading: ${isLoading}
     ''';
   }
 }

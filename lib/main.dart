@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Shop App',
       theme: ProjectTheme.ligthTheme,
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

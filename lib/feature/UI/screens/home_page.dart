@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:shop_app/feature/UI/widgets/navigationbar_model.dart';
+import 'package:shop_app/feature/view_model/mobx_view_model.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   List<NavigationBarModel> navigationbarModel = [
     NavigationBarModel(icon: const Icon(Icons.home), onPressed: () {}),
     NavigationBarModel(icon: const Icon(Icons.favorite), onPressed: () {}),
@@ -11,6 +18,13 @@ class HomePage extends StatelessWidget {
     NavigationBarModel(icon: const Icon(Icons.article_rounded), onPressed: () {}),
     NavigationBarModel(icon: const Icon(Icons.person), onPressed: () {}),
   ];
+  final viewModel = MobxViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.fetchComputerItemFromApi();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +47,38 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _body() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
-      child: Column(
-        children: [
-          Row(
-            children: [const Text('Our Product'), TextButton(onPressed: () {}, child: const Text('Short by'))],
-          )
-        ],
-      ),
-    );
+    return Observer(builder: (_) {
+      return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: viewModel.isLoading
+              ? const CircularProgressIndicator()
+              : ListView.builder(
+                  itemCount: viewModel.items?.length,
+                  itemBuilder: (context, index) {
+                    return Center(
+                      child: Card(
+                        child: SizedBox(
+                          height: 200,
+                          width: 300,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 150,
+                                width: 250,
+                                child: Image.network(
+                                    fit: BoxFit.fill,
+                                    viewModel.items?[index].image ??
+                                        'https://www.shutterstock.com/shutterstock/photos/1652062426/display_1500/stock-photo-jakarta-indonesia-saturday-july-laptop-dell-1652062426.jpg'),
+                              ),
+                              Text(viewModel.items?[index].compName ?? 'SDFSDF')
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ));
+    });
   }
 
   AppBar _appBar(BuildContext context) {
