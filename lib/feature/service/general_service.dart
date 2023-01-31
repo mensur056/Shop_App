@@ -3,13 +3,13 @@ import 'package:shop_app/core/extensions/service_extension.dart';
 import 'package:shop_app/feature/service/model/bag_model.dart';
 import 'package:shop_app/feature/service/model/computer_model.dart';
 import 'package:shop_app/feature/service/model/phone_model.dart';
-import 'package:shop_app/feature/service/model/shoes_model.dart';
+import 'package:shop_app/feature/service/model/tablet_model.dart';
 
 abstract class IHomeService {
   Future<List<PhoneModel>?> fetchPhoneProduct();
   Future<List<BagModel>?> fetchBagProduct();
   Future<List<ComputerModel>?> fetchComputerProduct();
-  Future<List<ShoesModel>?> fetchShoesProduct();
+  Future<List<TabletModel>?> fetchShoesProduct();
 }
 
 class GeneralService implements IHomeService {
@@ -41,12 +41,12 @@ class GeneralService implements IHomeService {
   }
 
   @override
-  Future<List<ShoesModel>?> fetchShoesProduct() async {
+  Future<List<TabletModel>?> fetchShoesProduct() async {
     final response = await dio.get(ProjectRequestPath.shoes.toPathCategory());
     if (response.statusCode == 200) {
       final data = response.data;
       if (data is List) {
-        return data.map((e) => ShoesModel.fromJson(e)).toList();
+        return data.map((e) => TabletModel.fromJson(e)).toList();
       }
     }
     return null;
